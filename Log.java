@@ -21,6 +21,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
+
 import java.awt.SystemColor;
 import javax.swing.JList;
 import javax.swing.border.SoftBevelBorder;
@@ -35,6 +37,9 @@ import javax.swing.JScrollBar;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 import javax.swing.JScrollPane;
+import java.awt.Window.Type;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Log extends JFrame {
 
@@ -62,30 +67,33 @@ public class Log extends JFrame {
 	 * Create the frame.
 	 */
 	public Log() {
+		setResizable(false);
+		setType(Type.POPUP);
+		setTitle("Log Management");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 660, 526);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JButton btnLogOut = new JButton("Logout");
-		btnLogOut.setBounds(544, 11, 90, 23);
-		btnLogOut.setBackground(new Color(255, 204, 51));
-		btnLogOut.addActionListener(new ActionListener() {
+		JButton btnLogin = new JButton("Login");
+		btnLogin.setBounds(544, 11, 90, 23);
+		btnLogin.setBackground(new Color(255, 204, 51));
+		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		contentPane.setLayout(null);
-		contentPane.add(btnLogOut);
+		contentPane.add(btnLogin);
 		
 		JLabel lblKeyword = new JLabel("Keyword:");
-		lblKeyword.setBounds(37, 84, 46, 14);
+		lblKeyword.setBounds(37, 84, 65, 14);
 		contentPane.add(lblKeyword);
 		
 		txtEnterKeywordHere = new JTextField();
 		txtEnterKeywordHere.setToolTipText("Enter Keyword Here");
 		txtEnterKeywordHere.setBackground(UIManager.getColor("menu"));
-		txtEnterKeywordHere.setBounds(87, 81, 249, 20);
+		txtEnterKeywordHere.setBounds(94, 81, 213, 20);
 		contentPane.add(txtEnterKeywordHere);
 		txtEnterKeywordHere.setColumns(10);
 		
@@ -94,11 +102,11 @@ public class Log extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnSearch.setBounds(343, 80, 65, 23);
+		btnSearch.setBounds(325, 80, 81, 23);
 		contentPane.add(btnSearch);
 		
 		JLabel lblSort = new JLabel("Sort:");
-		lblSort.setBounds(434, 84, 24, 14);
+		lblSort.setBounds(416, 84, 42, 14);
 		contentPane.add(lblSort);
 		
 		JComboBox sortChoice = new JComboBox();
@@ -112,12 +120,13 @@ public class Log extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblFilePath = new JLabel("File Path:");
-		lblFilePath.setBounds(54, 156, 46, 14);
+		lblFilePath.setBounds(54, 156, 71, 14);
 		contentPane.add(lblFilePath);
 		
 		textField_1 = new JTextField();
+		textField_1.setEditable(false);
 		textField_1.setBackground(UIManager.getColor("menu"));
-		textField_1.setBounds(103, 153, 506, 20);
+		textField_1.setBounds(128, 153, 481, 20);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -136,7 +145,7 @@ public class Log extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAll.setBounds(37, 222, 89, 23);
+		btnAll.setBounds(42, 226, 89, 23);
 		contentPane.add(btnAll);
 		
 		JButton btnTrace = new JButton("Trace");
@@ -145,7 +154,7 @@ public class Log extends JFrame {
 			}
 		});
 		btnTrace.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTrace.setBounds(37, 247, 89, 23);
+		btnTrace.setBounds(42, 251, 89, 23);
 		contentPane.add(btnTrace);
 		
 		JButton btnDebug = new JButton("Debug");
@@ -154,39 +163,39 @@ public class Log extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnDebug.setBounds(37, 272, 89, 23);
+		btnDebug.setBounds(42, 276, 89, 23);
 		contentPane.add(btnDebug);
 		
 		JButton btnInfo = new JButton("Info");
 		btnInfo.setHorizontalAlignment(SwingConstants.LEFT);
-		btnInfo.setBounds(37, 297, 89, 23);
+		btnInfo.setBounds(42, 301, 89, 23);
 		contentPane.add(btnInfo);
 		
 		JButton btnWarn = new JButton("Warn");
 		btnWarn.setHorizontalAlignment(SwingConstants.LEFT);
-		btnWarn.setBounds(37, 322, 89, 23);
+		btnWarn.setBounds(42, 326, 89, 23);
 		contentPane.add(btnWarn);
 		
 		JButton btnError = new JButton("Error");
 		btnError.setHorizontalAlignment(SwingConstants.LEFT);
-		btnError.setBounds(37, 346, 89, 23);
+		btnError.setBounds(42, 350, 89, 23);
 		contentPane.add(btnError);
 		
 		JButton btnFatal = new JButton("Fatal");
 		btnFatal.setHorizontalAlignment(SwingConstants.LEFT);
-		btnFatal.setBounds(37, 370, 89, 23);
+		btnFatal.setBounds(42, 374, 89, 23);
 		contentPane.add(btnFatal);
 		
 		JButton btnOff = new JButton("Off");
 		btnOff.setHorizontalAlignment(SwingConstants.LEFT);
-		btnOff.setBounds(37, 395, 89, 23);
+		btnOff.setBounds(42, 399, 89, 23);
 		contentPane.add(btnOff);
 		
 		JLabel lblNewLabel_1 = new JLabel("Levels");
 		lblNewLabel_1.setBackground(SystemColor.controlDkShadow);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(37, 204, 82, 14);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel_1.setBounds(42, 208, 90, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		JScrollBar scrollBar = new JScrollBar();
@@ -195,48 +204,59 @@ public class Log extends JFrame {
 		contentPane.add(scrollBar);
 		
 		JEditorPane editorPane = new JEditorPane();
+		editorPane.setEditable(false);
 		editorPane.setBackground(SystemColor.activeCaptionBorder);
 		editorPane.setBounds(147, 204, 474, 232);
 		contentPane.add(editorPane);
 		
 		JButton btnImport = new JButton("Import");
+		btnImport.setBackground(Color.ORANGE);
+		btnImport.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFileChooser _fileChooser=null;
+				_fileChooser.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY); 
+			}
+		});
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnImport.setBounds(474, 127, 65, 23);
+		btnImport.setBounds(440, 127, 80, 23);
 		contentPane.add(btnImport);
 		
 		JButton btnExport = new JButton("Export");
-		btnExport.setBounds(544, 127, 65, 23);
+		btnExport.setBackground(Color.YELLOW);
+		btnExport.setBounds(528, 127, 80, 23);
 		contentPane.add(btnExport);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(SystemColor.text);
+		panel.setBackground(new Color(255, 255, 255));
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(32, 123, 589, 59);
+		panel.setBounds(37, 119, 584, 63);
 		contentPane.add(panel);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(37, 204, 100, 223);
+		contentPane.add(panel_1);
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBackground(Color.WHITE);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 33, 624, 443);
 		contentPane.add(tabbedPane);
 		
 		JTabbedPane ISOConfigurations = new JTabbedPane(JTabbedPane.TOP);
+		ISOConfigurations.setBackground(Color.WHITE);
 		tabbedPane.addTab("ISO Configurations", null, ISOConfigurations, null);
-		
-		JTabbedPane MonitoringApplicatin = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("Monitoring Application", null, MonitoringApplicatin, null);
-				
-		JTabbedPane Settings = new JTabbedPane(JTabbedPane.TOP);
-		Settings.setEnabled(true);
-				tabbedPane.addTab("Settings", null, Settings, null);
-		contentPane.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnLogOut, lblKeyword, txtEnterKeywordHere, btnSearch, lblSort, sortChoice, lblNewLabel, lblFilePath, textField_1, lblRefreshEvery, refreshTime, btnAll, btnTrace, btnDebug, btnInfo, btnWarn, btnError, btnFatal, btnOff, lblNewLabel_1, scrollBar, editorPane, btnImport, btnExport, panel}));
+		contentPane.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{btnLogin, lblKeyword, txtEnterKeywordHere, btnSearch, lblSort, sortChoice, lblNewLabel, lblFilePath, textField_1, lblRefreshEvery, refreshTime, btnAll, btnTrace, btnDebug, btnInfo, btnWarn, btnError, btnFatal, btnOff, lblNewLabel_1, scrollBar, editorPane, btnImport, btnExport, panel}));
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{contentPane, btnLogin, lblKeyword, txtEnterKeywordHere, btnSearch, lblSort, sortChoice, lblNewLabel, lblFilePath, textField_1, lblRefreshEvery, refreshTime, btnAll, btnTrace, btnDebug, btnInfo, btnWarn, btnError, btnFatal, btnOff, lblNewLabel_1, scrollBar, editorPane, btnImport, btnExport, panel, ISOConfigurations, tabbedPane}));
 		btnExport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 	}
 	protected JTable getDisplay() {
-		return Display;
+		return getDisplay();
 	}
 }
